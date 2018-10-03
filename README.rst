@@ -8,7 +8,7 @@ This simple project is an example repo for Python projects.
 
 **Usage:**
 
-1. Create virtualenv fwith python3:
+1. Create virtualenv with python3:
     ``virtualenv -p python3 ~/.virtualenvs/numeris/python-module-template``
 
 2. Execute Makefile to setup dependencies and run tests:
