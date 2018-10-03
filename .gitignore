@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# environment variables
+.env
+
+# JetBrains
+.idea/
+
 # C extensions
 *.so
 
