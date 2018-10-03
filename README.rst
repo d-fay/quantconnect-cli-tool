@@ -9,7 +9,10 @@ Repo is intended to contain ad-hoc scripts used for various tasks.
 1. Create virtualenv with python3:
     ``virtualenv -p python3 ~/.virtualenvs/numeris/scripts``
 
-2. Execute Makefile to setup dependencies and run tests:
+2. Start your new virtualenv:
+    ``source ~/.virtualenvs/numeris/scripts/bin/activate``
+
+3. Execute Makefile to setup dependencies and run tests:
     ``make -f Makefile``
 
 ---------------
