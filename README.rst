@@ -15,6 +15,9 @@ Repo is intended to contain ad-hoc scripts used for various tasks.
 3. Execute Makefile to setup dependencies and run tests:
     ``make -f Makefile``
 
+4. Edit the contents of runner.py to fit your specific needs then run it!
+    ``python runner.py``
+
 ---------------
 
 If you want to learn more about ``setup.py`` files, check out `this repository <https://github.com/kennethreitz/setup.py>`_.
