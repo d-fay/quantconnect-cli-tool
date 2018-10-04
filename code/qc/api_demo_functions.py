@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 import os
+import errno
 
 from dotenv import load_dotenv
 
 from .api_wrapper import QCApi
 
+PID = 1685011                               # Example project ID
+BID = '3dcd51433200e1d3919f021dae7376bf'    # Example backtest ID
+
 dotenv_path = os.path.join(os.getcwd(), '.env')
 load_dotenv(dotenv_path)
-
-
 client = QCApi(userId=os.environ['QC_USER_ID'], token=os.environ['QC_ACCESS_TOKEN'])
 
 
-def print_projects():
+def print_projects_verbose():
     if client.connected():
         print('Successfully connected to Quant Connect!')
         print('Listing details of all projects for user: \n')
@@ -52,6 +54,23 @@ def print_projects():
               'you are connected to the internet')
 
 
+def print_projects():
+    if client.connected():
+        print('Successfully connected to Quant Connect!')
+        print('Listing details of all projects for user: \n')
+        projects_response = client.list_projects()
+
+        # Example project details:
+        print('PROJECTS')
+        # print every key and value in list of dictionaries
+        for project in projects_response['projects']:
+            print('  |-- {} | {}'.format(project['projectId'], project['name']))
+    else:
+        print('Error connecting to Quant Connect.\n'
+              'Check your user credentials in .env and ensure\n'
+              'you are connected to the internet')
+
+
 def print_list_of_backtests_by_project():
     if client.connected():
         print('Successfully connected to Quant Connect!\n')
@@ -80,7 +99,7 @@ def print_list_of_backtests_by_project():
               'you are connected to the internet')
 
 
-def download_example_backtest_report(project_id=1685011, backtest_id='3dcd51433200e1d3919f021dae7376bf'):
+def download_example_backtest_report(project_id=PID, backtest_id=BID):
     if client.connected():
         print('Successfully connected to Quant Connect!\n')
         print('Downloading report for a hardcoded backtest ID...')
@@ -90,6 +109,75 @@ def download_example_backtest_report(project_id=1685011, backtest_id='3dcd514332
         filename = os.path.join(os.getcwd(), '{}.html'.format(backtest_id))
         with open(filename, 'w') as out_file:
             out_file.write(backtest_response['report'])
+    else:
+        print('Error connecting to Quant Connect.\n'
+              'Check your user credentials in .env and ensure\n'
+              'you are connected to the internet')
+
+
+def print_project_files_verbose(project_id=PID):
+    if client.connected():
+        print('Successfully connected to Quant Connect!')
+        print('Loading list of project files for project ID...')
+        files_response = client.read_project_files(projectId=project_id)
+        if not files_response['success']:
+            return None
+        for file_data in files_response['files']:
+            print('===================================================')
+            print('---------------- < {} > ---------------'.format(file_data['name']))
+            print('===================================================')
+            print(' |- {}'.format(file_data['name']))
+            for file_dict_key in file_data:
+                if file_dict_key == 'content':
+                    print('file content: ')
+                    print('---------------- < CODE BEGINS > ------------------')
+                    print('{}'.format(file_data[file_dict_key]))
+                    print('----------------- < CODE ENDS > -------------------')
+                elif file_dict_key != 'name':
+                    print('  |-- {}: {}'.format(file_dict_key, file_data[file_dict_key]))
+            print('===================================================\n')
+    else:
+        print('Error connecting to Quant Connect.\n'
+              'Check your user credentials in .env and ensure\n'
+              'you are connected to the internet')
+
+
+def print_project_files(project_id=PID):
+    if client.connected():
+        print('Successfully connected to Quant Connect!')
+        print('Loading list of project files for project ID {}'.format(project_id))
+        files_response = client.read_project_files(projectId=project_id)
+        if not files_response['success']:
+            return None
+        print('FILES:')
+        for file_data in files_response['files']:
+            print(' |- {}'.format(file_data['name']))
+    else:
+        print('Error connecting to Quant Connect.\n'
+              'Check your user credentials in .env and ensure\n'
+              'you are connected to the internet')
+
+
+def download_project_files(project_id=PID):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    if client.connected():
+        print('Successfully connected to Quant Connect!')
+        print('Downloading files for project ID...')
+        files_response = client.read_project_files(projectId=project_id)
+        if not files_response['success']:
+            return None
+        for file_data in files_response['files']:
+            python_filename = '{}-{}'.format(project_id, file_data['name'])
+            filename = os.path.join(dir_path, 'downloads/{}'.format(python_filename))
+            if not os.path.exists(os.path.dirname(filename)):
+                try:
+                    os.makedirs(os.path.dirname(filename))
+                except OSError as exc:  # Guard against race condition
+                    if exc.errno != errno.EEXIST:
+                        raise
+            with open(filename, 'w') as f:
+                f.write(python_filename)
+            print(' |- {}'.format(file_data['name']))
     else:
         print('Error connecting to Quant Connect.\n'
               'Check your user credentials in .env and ensure\n'
