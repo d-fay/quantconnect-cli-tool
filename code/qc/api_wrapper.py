@@ -13,7 +13,8 @@
 
 from datetime import datetime
 from json import dumps
-from requests import Request
+
+import requests
 from time import mktime
 from quantconnect import ApiConnection
 
@@ -39,7 +40,7 @@ class QCApi:
         Returns:
             ProjectResponse that contains information regarding the project.
         """
-        request = Request('GET', "projects/read", params={"projectId": projectId})
+        request = requests.Request('GET', "projects/read", params={"projectId": projectId})
 
         return self.api_connection.try_request(request)
 
@@ -48,7 +49,7 @@ class QCApi:
         Returns:
             ProjectResponse that contains information regarding the project.
         """
-        request = Request('GET', "projects/read")
+        request = requests.Request('GET', "projects/read")
 
         return self.api_connection.try_request(request)
 
@@ -60,8 +61,8 @@ class QCApi:
         Returns:
             Project object from the API.
         """
-        request = Request('POST', "projects/create",
-                          data=dumps({"name": name, "language": language}))
+        request = requests.Request('POST', "projects/create",
+                                   data=dumps({"name": name, "language": language}))
 
         return self.api_connection.try_request(request)
 
@@ -74,13 +75,13 @@ class QCApi:
         Returns:
             ProjectResponse that contains information regarding the project.
         """
-        request = Request('POST', "files/create",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "name": name,
-                              "content": content
-                          })
+        request = requests.Request('POST', "files/create",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "name": name,
+                                       "content": content
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -93,13 +94,13 @@ class QCApi:
         Returns:
             Response indicating success
         """
-        request = Request('POST', "files/update",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "name": oldFileName,
-                              "newName": newFileName
-                          })
+        request = requests.Request('POST', "files/update",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "name": oldFileName,
+                                       "newName": newFileName
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -112,13 +113,13 @@ class QCApi:
         Returns:
             Response indicating success
         """
-        request = Request('POST', "files/update",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "name": fileName,
-                              "content": newFileContents
-                          })
+        request = requests.Request('POST', "files/update",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "name": fileName,
+                                       "content": newFileContents
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -129,7 +130,7 @@ class QCApi:
         Returns:
             ProjectFilesResponse that includes the information about all files in the project
         """
-        request = Request('GET', "files/read", params={"projectId": projectId})
+        request = requests.Request('GET', "files/read", params={"projectId": projectId})
 
         return self.api_connection.try_request(request)
 
@@ -141,12 +142,12 @@ class QCApi:
         Returns:
             ProjectFilesResponse that includes the file information
         """
-        request = Request('GET', "files/read",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "name": fileName
-                          })
+        request = requests.Request('GET', "files/read",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "name": fileName
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -158,12 +159,12 @@ class QCApi:
         Returns:
             ProjectFilesResponse that includes the information about all files in the project
         """
-        request = Request('POST', "files/delete",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "name": name
-                          })
+        request = requests.Request('POST', "files/delete",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "name": name
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -174,8 +175,8 @@ class QCApi:
         Returns:
             Response indicating success
         """
-        request = Request('POST', "projects/delete",
-                          data=dumps({"projectId": projectId}))
+        request = requests.Request('POST', "projects/delete",
+                                   data=dumps({"projectId": projectId}))
 
         return self.api_connection.try_request(request)
 
@@ -186,8 +187,8 @@ class QCApi:
         Returns:
             Compile object result
         """
-        request = Request('POST', "compile/create",
-                          data=dumps({"projectId": projectId}))
+        request = requests.Request('POST', "compile/create",
+                                   data=dumps({"projectId": projectId}))
 
         return self.api_connection.try_request(request)
 
@@ -199,12 +200,12 @@ class QCApi:
         Returns:
             Response result
         """
-        request = Request('GET', "compile/read",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "compileId": compileId
-                          })
+        request = requests.Request('GET', "compile/read",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "compileId": compileId
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -217,13 +218,13 @@ class QCApi:
         Returns:
             Backtest
         """
-        request = Request('POST', "backtests/create",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "compileId": compileId,
-                              "backtestName": backtestName
-                          })
+        request = requests.Request('POST', "backtests/create",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "compileId": compileId,
+                                       "backtestName": backtestName
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -235,12 +236,12 @@ class QCApi:
         Returns:
             Backtest
         """
-        request = Request('GET', "backtests/read",
-                          params=
-                          {
-                              "backtestId": backtestId,
-                              "projectId": projectId
-                          })
+        request = requests.Request('GET', "backtests/read",
+                                   params=
+                                   {
+                                       "backtestId": backtestId,
+                                       "projectId": projectId
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -252,16 +253,16 @@ class QCApi:
             name(str): Name we'd like to assign to the backtest
             note(str): Note attached to the backtest
         Returns:
-            Request Response
+            requests.Request Response
         """
-        request = Request('POST', "backtests/update",
-                          data=dumps(
-                              {
-                                  "projectId": projectId,
-                                  "backtestId": backtestId,
-                                  "name": name,
-                                  "note": note
-                              }))
+        request = requests.Request('POST', "backtests/update",
+                                   data=dumps(
+                                       {
+                                           "projectId": projectId,
+                                           "backtestId": backtestId,
+                                           "name": name,
+                                           "note": note
+                                       }))
 
         return self.api_connection.try_request(request)
 
@@ -272,7 +273,7 @@ class QCApi:
         Returns:
             Backtest list
         """
-        request = Request('GET', "backtests/read", params={"projectId": projectId})
+        request = requests.Request('GET', "backtests/read", params={"projectId": projectId})
 
         return self.api_connection.try_request(request)
 
@@ -284,12 +285,12 @@ class QCApi:
         Returns:
             Response
         """
-        request = Request('GET', "backtests/delete",
-                          params=
-                          {
-                              "backtestId": backtestId,
-                              "projectId": projectId
-                          })
+        request = requests.Request('GET', "backtests/delete",
+                                   params=
+                                   {
+                                       "backtestId": backtestId,
+                                       "projectId": projectId
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -306,7 +307,7 @@ class QCApi:
         Returns:
             Information regarding the new algorithm
         """
-        request = Request('POST', "live/create", headers={"Accept": "application/json"},
+        request = requests.Request('POST', "live/create", headers={"Accept": "application/json"},
                           data=dumps(
                               {
                                   "versionId": versionId,
@@ -330,8 +331,7 @@ class QCApi:
             Live list
         """
 
-        if (
-                status != None and
+        if (status is None and
                 status != "Running" and
                 status != "RuntimeError" and
                 status != "Stopped" and
@@ -339,14 +339,14 @@ class QCApi:
             raise ValueError(
                 "The Api only supports Algorithm Statuses of Running, Stopped, RuntimeError and Liquidated")
 
-        request = Request('GET', "live/read",
-                          params=
-                          {
-                              "status": str(status),
-                              "start": 0 if startTime == None else mktime(startTime.timetuple()),
-                              "end": mktime(datetime.utcnow().timetuple()) if endTime == None else mktime(
-                                  endTime.timetuple())
-                          })
+        request = requests.Request('GET', "live/read",
+                                   params=
+                                   {
+                                       "status": str(status),
+                                       "start": 0 if startTime == None else mktime(startTime.timetuple()),
+                                       "end": mktime(datetime.utcnow().timetuple()) if endTime == None else mktime(
+                                           endTime.timetuple())
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -359,12 +359,12 @@ class QCApi:
         Returns:
             Live list
         """
-        request = Request('GET', "live/read",
-                          params=
-                          {
-                              "projectId": projectId,
-                              "deployId": deployId
-                          })
+        request = requests.Request('GET', "live/read",
+                                   params=
+                                   {
+                                       "projectId": projectId,
+                                       "deployId": deployId
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -373,9 +373,9 @@ class QCApi:
         Args:
             projectId(int): Project for the live instance we want to stop
         Returns:
-            Request response
+            requests.Request response
         """
-        request = Request('POST', "live/update/liquidate", params={"projectId": projectId})
+        request = requests.Request('POST', "live/update/liquidate", params={"projectId": projectId})
 
         return self.api_connection.try_request(request)
 
@@ -384,9 +384,9 @@ class QCApi:
         Args:
             projectId(int): Project for the live instance we want to stop.
         Returns:
-            Request response
+            requests.Request response
         """
-        request = Request('POST', "live/update/stop", params={"projectId": projectId})
+        request = requests.Request('POST', "live/update/stop", params={"projectId": projectId})
 
         return self.api_connection.try_request(request)
 
@@ -400,16 +400,16 @@ class QCApi:
         Returns:
             List of strings that represent the logs of the algorithm
         """
-        request = Request('GET', "live/read/log",
-                          params=
-                          {
-                              "format": "json",
-                              "projectId": projectId,
-                              "algorithmId": algorithmId,
-                              "start": 0 if startTime == None else mktime(startTime.timetuple()),
-                              "end": mktime(datetime.utcnow().timetuple()) if endTime == None else mktime(
-                                  endTime.timetuple())
-                          })
+        request = requests.Request('GET', "live/read/log",
+                                   params=
+                                   {
+                                       "format": "json",
+                                       "projectId": projectId,
+                                       "algorithmId": algorithmId,
+                                       "start": 0 if startTime == None else mktime(startTime.timetuple()),
+                                       "end": mktime(datetime.utcnow().timetuple()) if endTime == None else mktime(
+                                           endTime.timetuple())
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -423,16 +423,16 @@ class QCApi:
         Returns:
             List of strings that represent the logs of the algorithm
         """
-        request = Request('GET', "data/read",
-                          params=
-                          {
-                              "format": "link",
-                              "ticker": symbol.lower(),
-                              "type": securityType.lower(),
-                              "market": market,
-                              "resolution": resolution,
-                              "date": date.strftime("%Y%m%d")
-                          })
+        request = requests.Request('GET', "data/read",
+                                   params=
+                                   {
+                                       "format": "link",
+                                       "ticker": symbol.lower(),
+                                       "type": securityType.lower(),
+                                       "market": market,
+                                       "resolution": resolution,
+                                       "date": date.strftime("%Y%m%d")
+                                   })
 
         return self.api_connection.try_request(request)
 
@@ -444,12 +444,12 @@ class QCApi:
         Returns:
             BacktestReport report
         """
-        request = Request('POST', "backtests/read/report",
-                          params=
-                          {
-                              "backtestId": backtestId,
-                              "projectId": projectId
-                          })
+        request = requests.Request('POST', "backtests/read/report",
+                                   params=
+                                   {
+                                     "backtestId": backtestId,
+                                     "projectId": projectId
+                                   })
 
         return self.api_connection.try_request(request)
 
