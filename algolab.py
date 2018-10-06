@@ -35,9 +35,31 @@ def main(create_project,
             file_name=create_project_args[1],
             file_location=create_project_args[2])
 
+    if update_file_name is not None:
+        update_file_name_args = getattr(args, 'update_file_name')
+        alt.ufn__update_file_name(
+            project_id=update_file_name_args[0],
+            old_file_name=update_file_name_args[1],
+            new_file_name=update_file_name_args[2])
+
     if list_project_files is not None:
         list_project_files_args = getattr(args, 'list_project_files')
         alt.lpf__list_project_files(project_id=list_project_files_args[0])
+
+    if pull_file is not None:
+        pass
+
+    if push_file is not None:
+        pass
+
+    if pull_all_files is not None:
+        pass
+
+    if push_all_files is not None:
+        pass
+
+    if delete_file_name is not None:
+        pass
 
 
 if __name__ == '__main__':

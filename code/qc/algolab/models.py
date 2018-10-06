@@ -38,10 +38,11 @@ class AlgorithmLabToolkit(QCApi):
         print(response)
 
     def ufn__update_file_name(self, project_id, old_file_name, new_file_name):
-        pass
+        response = self.update_project_filename(project_id, old_file_name, new_file_name)
+        print(response)
 
     def lpf__list_project_files(self, project_id):
-        files_response = self.read_project_files(projectId=project_id)
+        files_response = self.read_project_files(project_id)
         if not files_response['success']:
             return None
         print('FILES:')
