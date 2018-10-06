@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
-import errno
 import argparse
 import logging
 import logging.handlers
 
-from dotenv import load_dotenv
-
-from code.qc.api.wrapper import QCApi
+from code.qc.algolab.models import AlgorithmLabToolkit
 
 
 def main(create_project,
@@ -21,8 +17,16 @@ def main(create_project,
          pull_all_files,
          push_all_files,
          delete_file_name):
+    alt = AlgorithmLabToolkit()
+
+    if create_project is not None:
+        create_project_args = getattr(args, 'create_project')
+        alt.cp__create_project(
+            project_name=create_project_args[0],
+            language=create_project_args[1])
+
     if list_projects is True:
-        print('Success')
+        alt.lp__list_projects()
 
 
 if __name__ == '__main__':
@@ -41,7 +45,7 @@ if __name__ == '__main__':
 
     """ Parse arguments from CLI """
     # python algolab.py --push_project 1231453647441324, live-algo-name, <code>
-    parser = argparse.ArgumentParser(description='QC Algo Lab Sync Tool')
+    parser = argparse.ArgumentParser(description='QC Project Management CLI Developer Tool')
     parser.add_argument('-cp', '--create_project', nargs=2, metavar=('<project-name>', '<language>'), default=None, help="Create a project with the specified name and language")
     parser.add_argument('-lp', '--list_projects', default=False, action="store_true", help="List all projects")
     parser.add_argument('-af', '--add_file', nargs=3, metavar=('<project-id>', '<file-name>', '<local-file-path>'), default=None, help="Add a file to a project")
