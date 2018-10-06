@@ -1,5 +1,5 @@
 from code.sample import core
-from code.qc import api_demo_functions
+from code.qc.discovery import api_demo_functions
 
 core.hmm()
 

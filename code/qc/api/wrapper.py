@@ -22,8 +22,8 @@ from quantconnect import ApiConnection
 class QCApi:
     """QuantConnect.com Interaction Via API.
     Attributes:
-        userId(int/str): User Id number from QuantConnect.com account. Found at www.qc.com/account.
-        token(str): Access token for the QuantConnect account. Found at www.qc.com/account.
+        userId(int/str): User Id number from QuantConnect.com account. Found at www.discovery.com/account.
+        token(str): Access token for the QuantConnect account. Found at www.discovery.com/account.
     """
 
     def __init__(self, userId, token):
