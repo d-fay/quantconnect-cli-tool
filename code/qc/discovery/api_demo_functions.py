@@ -4,7 +4,7 @@ import errno
 
 from dotenv import load_dotenv
 
-from .api_wrapper import QCApi
+from ..api.wrapper import QCApi
 
 PID = 1685011                               # Example project ID
 BID = '3dcd51433200e1d3919f021dae7376bf'    # Example backtest ID
