@@ -41,7 +41,12 @@ class AlgorithmLabToolkit(QCApi):
         pass
 
     def lpf__list_project_files(self, project_id):
-        pass
+        files_response = self.read_project_files(projectId=project_id)
+        if not files_response['success']:
+            return None
+        print('FILES:')
+        for file_data in files_response['files']:
+            print(' |- {}'.format(file_data['name']))
 
     def pf__pull_file(self, project_id, file_name):
         pass

@@ -28,6 +28,17 @@ def main(create_project,
     if list_projects is True:
         alt.lp__list_projects()
 
+    if add_file is not None:
+        create_project_args = getattr(args, 'add_file')
+        alt.af__add_file(
+            project_id=create_project_args[0],
+            file_name=create_project_args[1],
+            file_location=create_project_args[2])
+
+    if list_project_files is not None:
+        list_project_files_args = getattr(args, 'list_project_files')
+        alt.lpf__list_project_files(project_id=list_project_files_args[0])
+
 
 if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.realpath(__file__))
