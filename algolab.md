@@ -20,24 +20,31 @@ usage: algolab.py [-h] [-cp <project-name> <language>] [-lp]
  - Create a project with the specified name and language
 
   `-lp`, `--list_projects`
+
  - List all projects
 
   `-af <project-id> <file-name> <local-file-path>`, `--add_file <project-id> <file-name> <local-file-path>`
+
  - Add a file to a project
 
   `-ufn <project-id> <old-file-name> <new-file-name>`, `--update_file_name <project-id> <old-file-name> <new-file-name>`
+
  - Update the name of a file
 
   `-lpf <project-id>`, `--list_project_files <project-id>`
+
  - List all files in a project
 
   `-dpf <project-id> <file-name>`, `--download_project_file <project-id> <file-name>`
+
  - Download a single file file in a project
 
   `-upf <project-id> <file-name> <local-file-path>`, `--update_project_file <project-id> <file-name> <local-file-path>`
+
  - Update the contents of a file
 
   `-dapf <project-id>`, `--download_all_project_files <project-id>`
+
  - Download all files in a project
 
   `-uapf <project-id>`, -`-update_all_project_files <project-id>`
