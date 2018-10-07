@@ -14,9 +14,11 @@ usage: algolab.py [-h] [-cp <project-name> <language>] [-lp]
 ----
 
   `-h`, `--help`        
+
  - show this help message and exit
   
   `-cp <project-name> <language>`, `--create_project <project-name> <language>`     
+ 
  - Create a project with the specified name and language
 
   `-lp`, `--list_projects`
