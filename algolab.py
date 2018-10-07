@@ -12,11 +12,11 @@ def main(create_project,
          add_file,
          update_file_name,
          list_project_files,
-         pull_file,
-         push_file,
-         pull_all_files,
-         push_all_files,
-         delete_file_name):
+         download_project_file,
+         update_project_file,
+         download_all_project_files,
+         update_all_project_files,
+         delete_file):
     alt = AlgorithmLabToolkit()
 
     if create_project is not None:
@@ -25,41 +25,54 @@ def main(create_project,
             project_name=create_project_args[0],
             language=create_project_args[1])
 
-    if list_projects is True:
+    elif list_projects is True:
         alt.lp__list_projects()
 
-    if add_file is not None:
+    elif add_file is not None:
         create_project_args = getattr(args, 'add_file')
         alt.af__add_file(
             project_id=create_project_args[0],
             file_name=create_project_args[1],
             file_location=create_project_args[2])
 
-    if update_file_name is not None:
+    elif update_file_name is not None:
         update_file_name_args = getattr(args, 'update_file_name')
         alt.ufn__update_file_name(
             project_id=update_file_name_args[0],
             old_file_name=update_file_name_args[1],
             new_file_name=update_file_name_args[2])
 
-    if list_project_files is not None:
+    elif list_project_files is not None:
         list_project_files_args = getattr(args, 'list_project_files')
         alt.lpf__list_project_files(project_id=list_project_files_args[0])
 
-    if pull_file is not None:
+    elif download_project_file is not None:
+        download_project_file_args = getattr(args, 'download_project_file')
+        alt.dpf__download_project_file(project_id=download_project_file_args[0],
+                                       file_name=download_project_file_args[1])
+
+    elif update_project_file is not None:
+        update_project_file_args = getattr(args, 'update_project_file')
+        alt.upf__update_project_file(project_id=update_project_file_args[0],
+                                     file_name=update_project_file_args[1],
+                                     local_file_path=update_project_file_args[2])
+
+    elif download_all_project_files is not None:
+        pull_all_files_args = getattr(args, 'download_all_project_files')
+        alt.dapf__download_all_project_files(project_id=pull_all_files_args[0])
+
+    elif update_all_project_files is not None:
+        update_all_project_files_args = getattr(args, 'update_all_project_files')
+        alt.uapf__update_all_project_files(project_id=update_all_project_files_args[0])
         pass
 
-    if push_file is not None:
-        pass
+    elif delete_file is not None:
+        delete_file_args = getattr(args, 'delete_file')
+        alt.deletef__delete_file(project_id=delete_file_args[0],
+                                 file_name=delete_file_args[1])
 
-    if pull_all_files is not None:
-        pass
-
-    if push_all_files is not None:
-        pass
-
-    if delete_file_name is not None:
-        pass
+    else:
+        print('Command not recognized. Use --help or -h for a list of available commands.')
 
 
 if __name__ == '__main__':
@@ -84,13 +97,13 @@ if __name__ == '__main__':
     parser.add_argument('-af', '--add_file', nargs=3, metavar=('<project-id>', '<file-name>', '<local-file-path>'), default=None, help="Add a file to a project")
     parser.add_argument('-ufn', '--update_file_name', nargs=3, metavar=('<project-id>', '<old-file-name>', '<new-file-name>'), default=None, help="Update the name of a file")
     parser.add_argument('-lpf', '--list_project_files', nargs=1, metavar=('<project-id>',), default=None, help="List all files in a project")
-    parser.add_argument('-pullf', '--pull_file', nargs=2, metavar=('<project-id>', '<file-name>'), default=None, help="Download a single file file in a project")
-    parser.add_argument('-pushf', '--push_file', nargs=3, metavar=('<project-id>', '<file-name>', '<local-file-path>'), default=None, help="Update the contents of a file")
-    parser.add_argument('-pull_all', '--pull_all_files', nargs=1, metavar=('<project-id>',), default=None, help="Download all files in a project")
-    parser.add_argument('-push_all', '--push_all_files', nargs=1, metavar=('<project-id>',), default=None, help="Update the contents of all project files")
+    parser.add_argument('-dpf', '--download_project_file', nargs=2, metavar=('<project-id>', '<file-name>'), default=None, help="Download a single file file in a project")
+    parser.add_argument('-upf', '--update_project_file', nargs=3, metavar=('<project-id>', '<file-name>', '<local-file-path>'), default=None, help="Update the contents of a file")
+    parser.add_argument('-dapf', '--download_all_project_files', nargs=1, metavar=('<project-id>',), default=None, help="Download all files in a project")
+    parser.add_argument('-uapf', '--update_all_project_files', nargs=1, metavar=('<project-id>',), default=None, help="Update the contents of all project files")
     # TODO: ensure appropriate conditional logic for above arg
     # (ie: if file does not exist on QC, create file, then update contents).
-    parser.add_argument('-dfn', '--delete_file_name', nargs=2, metavar=('<project-id>', '<file-name>'), default=None, help="Delete a file in a project")
+    parser.add_argument('-deletef', '--delete_file', nargs=2, metavar=('<project-id>', '<file-name>'), default=None, help="Delete a file in a project")
 
     args = parser.parse_args()
 
@@ -99,9 +112,8 @@ if __name__ == '__main__':
          args.add_file,
          args.update_file_name,
          args.list_project_files,
-         args.pull_file,
-         args.push_file,
-         args.pull_all_files,
-         args.push_all_files,
-         args.delete_file_name
-         )
+         args.download_project_file,
+         args.update_project_file,
+         args.download_all_project_files,
+         args.update_all_project_files,
+         args.delete_file)
