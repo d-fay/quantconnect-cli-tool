@@ -20,4 +20,14 @@ Repo is intended to contain ad-hoc scripts used for various tasks.
 
 ---------------
 
+
+Table of Contents
+=================
+
+- QuantConnect:
+
+  - `[algolab] <algolab.md>`_ ``- algolab.py`` is a command line interface for interacting with QC REST API.
+
+
+
 If you want to learn more about ``setup.py`` files, check out `this repository <https://github.com/kennethreitz/setup.py>`_.
