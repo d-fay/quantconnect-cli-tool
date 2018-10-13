@@ -80,7 +80,7 @@ PROJECTS
 
 Add file to QC project using `project_id`:
 ```
-python algolab.py --add_file 1880611 Main.py code/qc/algolab/proj/Main.py
+$ python algolab.py --add_file 1880611 Main.py code/qc/algolab/proj/Main.py
 {'files': [{'name': 'Main.py', 'content': 'this is a ...', 'modified': '2018-10-07 06:02:01'}], 'success': True}
 ```
 
