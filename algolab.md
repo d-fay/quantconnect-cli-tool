@@ -49,7 +49,7 @@ usage: algolab.py [-h] [-cp <project-name> <language>] [-lp]
 
  - Download all files in a project
 
-  `-uapf <project-id>`, -`-update_all_project_files <project-id>`
+  `-uapf <project-id>`, `--update_all_project_files <project-id>`
 
  - Update the contents of all project files
 
