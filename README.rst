@@ -56,3 +56,9 @@ Usage:
 
 
 If you want to learn more about ``setup.py`` files, check out `this repository <https://github.com/kennethreitz/setup.py>`_.
+
+
+
+Setup for Quant Connect
+=================
+You will need to create a copy of `.env_example` and save as `.env`. You will also need to add to it your QuantConnect credentials. These can be found by logging in to QuantConnect and going TO `My Account`. You will see the values you need under the `Api` section.
