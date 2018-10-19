@@ -5,16 +5,16 @@
 from setuptools import setup, find_packages
 
 
-with open('README.rst') as f:
+with open('README.md') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='sample',
+    name='qctools',
     version='0.1.0',
-    description='Sample package from Python-Guide.org',
+    description='Tools for QuantConnect.com',
     long_description=readme,
     author='Numeris LLC',
     author_email='admin@numeris.tech',
@@ -22,4 +22,3 @@ setup(
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
-

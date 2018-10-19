@@ -3,6 +3,4 @@ sphinx==1.8.1
 python-dotenv==0.9.1
 requests==2.19.1
 quantconnect==0.1
-beautifulsoup4==4.6.3
-lxml==4.2.5
-pandas==0.23.4
+

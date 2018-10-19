@@ -10,52 +10,63 @@ usage: algolab.py [-h] [-cp <project-name> <language>] [-lp]
                   [-deletef <project-id> <file-name>]
 ```
 
-**arguments:**
-----
+## arguments:
 
-  `-h`, `--help`        
 
- - show this help message and exit
-  
-  `-cp <project-name> <language>`, `--create_project <project-name> <language>`     
- 
- - Create a project with the specified name and language
+#### Help
+-   `-h`
+-   `--help`        
 
-  `-lp`, `--list_projects`
+#### Create a project with specified name and language (ie: `Py`)
+-   `-cp <project-name> <language>`
+-   `--create_project <project-name> <language>`     
 
- - List all projects
+#### List all projects
+-   `-lp`
+-   `--list_projects`
 
-  `-af <project-id> <file-name> <local-file-path>`, `--add_file <project-id> <file-name> <local-file-path>`
 
- - Add a file to a project
+#### Add a file to a project 
+-   `-af <project-id> <file-name> <local-file-path>`
+-   `--add_file <project-id> <file-name> <local-file-path>`
 
-  `-ufn <project-id> <old-file-name> <new-file-name>`, `--update_file_name <project-id> <old-file-name> <new-file-name>`
 
- - Update the name of a file
+#### Update the name of a file
 
-  `-lpf <project-id>`, `--list_project_files <project-id>`
+-   `-ufn <project-id> <old-file-name> <new-file-name>`
+-   `--update_file_name <project-id> <old-file-name> <new-file-name>`
 
- - List all files in a project
 
-  `-dpf <project-id> <file-name>`, `--download_project_file <project-id> <file-name>`
+#### List all files in a project
 
- - Download a single file file in a project
+-   `-lpf <project-id>`
+-   `--list_project_files <project-id>`
 
-  `-upf <project-id> <file-name> <local-file-path>`, `--update_project_file <project-id> <file-name> <local-file-path>`
+#### Download a single file file in a project
 
- - Update the contents of a file
+-   `-dpf <project-id> <file-name>`
+-   `--download_project_file <project-id> <file-name>`
 
-  `-dapf <project-id>`, `--download_all_project_files <project-id>`
+#### Update the contents of a file
 
- - Download all files in a project
+-   `-upf <project-id> <file-name> <local-file-path>`
+-   `--update_project_file <project-id> <file-name> <local-file-path>`
 
-  `-uapf <project-id>`, `--update_all_project_files <project-id>`
+#### Download all files in a project
 
- - Update the contents of all project files
+-   `-dapf <project-id>`
+-   `--download_all_project_files <project-id>`
 
-  `-deletef <project-id> <file-name>`, `--delete_file <project-id> <file-name>`
+#### Update the contents of all project files
 
- - Delete a file in a project
+-   `-uapf <project-id>`
+-   `--update_all_project_files <project-id>`
+
+#### Delete a file in a project
+
+-   `-deletef <project-id> <file-name>`
+-   `--delete_file <project-id> <file-name>`
+
 
 -----
 Example usage:
