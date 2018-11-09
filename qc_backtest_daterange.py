@@ -3,6 +3,7 @@ import argparse
 import logging.handlers
 import os
 import time
+import datetime as dt
 import urllib.request
 
 from dotenv import load_dotenv
@@ -101,26 +102,27 @@ def compile_project():
 def backtest_compiled_project(compile_id):
     qc = QCHelper()
     print('Triggering project backtest...')
-    backtest_results = qc.create_backtest(qc.pid, compile_id, 'backtest_name_02')
+    backtest_name = '{}_{}'.format(
+        qc.pid, str(dt.datetime.now())[:19].replace(' ', '_').replace(':', ''))
+    backtest_results = qc.create_backtest(qc.pid, compile_id, backtest_name)
     backtest_id = backtest_results['backtestId']
     backtest_read_results = qc.read_backtest(qc.pid, backtest_id)
-    print(backtest_read_results)
     while backtest_read_results['progress'] < 1:
         print('Waiting for backtest to complete...')
         time.sleep(15)
         backtest_read_results = qc.read_backtest(qc.pid, backtest_id)
     if backtest_read_results['completed'] is True:
         print(backtest_read_results['result'])
-        print('Successful backtest! Downloading log file')
+        print('Successful backtest! Downloading log file...')
 
         log_url = 'https://www.quantconnect.com/backtests/{}/{}/{}-log.txt'.format(
             os.environ['QC_USER_ID'], qc.pid, backtest_id)
 
-        filename = '{}-log.txt'.format(backtest_id)
-        log_dir = os.path.join(qc.get_project_directory(), 'backtest_logs')
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-        file_path = os.path.join(log_dir, filename)
+        filename = '{}_{}-log.txt'.format(backtest_name, backtest_id)
+        backtest_log_dir = os.path.join(qc.get_project_directory(), 'backtest_logs')
+        if not os.path.exists(backtest_log_dir):
+            os.makedirs(backtest_log_dir)
+        file_path = os.path.join(backtest_log_dir, filename)
         urllib.request.urlretrieve(log_url, file_path)
         return file_path
 
