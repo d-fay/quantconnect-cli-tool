@@ -131,7 +131,6 @@ if __name__ == '__main__':
     setup_logging()
 
     """ Parse arguments from CLI """
-    # python algolab.py --push_project 1231453647441324, live-algo-name, <code>
     parser = argparse.ArgumentParser(description='Backtest date param passing demo')
     parser.add_argument('-s', '--start_date', nargs=1, metavar=('<start-date>',), default=None, help="First date to run algo on")
     parser.add_argument('-e', '--end_date', nargs=1, metavar=('<end-date>',), default=None, help="Last date to run algo on")
