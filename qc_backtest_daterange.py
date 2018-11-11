@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
 import datetime as dt
-import logging.handlers
 import os
 import time
 import urllib.request
@@ -9,13 +8,12 @@ import urllib.request
 from dotenv import load_dotenv
 
 from code.qc.algolab import models
-from code.qc.api.wrapper import QCApi
-# from code.qc.algolab.models import AlgorithmLabToolkit
+from code.qc.algolab.models import AlgorithmLabToolkit
 
 params_filename = 'params.py'
 
 
-class QCHelper(QCApi):
+class QCHelper(AlgorithmLabToolkit):
     """ Toolkit for the QuantConnect CommandLine AlgorithmLab API Interactor Tool """
 
     def __init__(self):
@@ -25,8 +23,7 @@ class QCHelper(QCApi):
         load_dotenv(self.dotenv_path)
         self.pid = os.environ['QC_BACKTEST_DATERANGE_PID']
         self.uid = os.environ['QC_USER_ID']
-        super(QCHelper, self).__init__(userId=os.environ['QC_USER_ID'],
-                                       token=os.environ['QC_ACCESS_TOKEN'])
+        super(QCHelper, self).__init__()
 
     def get_project_directory(self):
         project_response = self.read_project(self.pid)
@@ -41,19 +38,20 @@ class QCHelper(QCApi):
                                          fileName=params_filename,
                                          newFileContents=config_file_txt)
 
-
-def setup_logging():
-    qc = QCHelper()
-    log_dir = os.path.join(qc.dir_script, 'log')
-    if not os.path.isdir(log_dir):
-        os.mkdir(os.path.join(qc.dir_script, 'log'))
-    log_filename = 'log/algolab.log'
-    log = logging.getLogger('algolab_logger')
-    log.setLevel(logging.DEBUG)
-    # Add handler to create new log file every 10MB
-    file_handler = logging.handlers.RotatingFileHandler(
-        log_filename, maxBytes=10*1024*1024, backupCount=5)
-    log.addHandler(file_handler)
+#
+# def setup_logging():
+#     import logging.handlers
+#     qc = QCHelper()
+#     log_dir = os.path.join(qc.dir_script, 'log')
+#     if not os.path.isdir(log_dir):
+#         os.mkdir(os.path.join(qc.dir_script, 'log'))
+#     log_filename = 'log/algolab.log'
+#     log = logging.getLogger('algolab_logger')
+#     log.setLevel(logging.DEBUG)
+#     # Add handler to create new log file every 10MB
+#     file_handler = logging.handlers.RotatingFileHandler(
+#         log_filename, maxBytes=10*1024*1024, backupCount=5)
+#     log.addHandler(file_handler)
 
 
 def update_project_params(start_date,
@@ -66,8 +64,8 @@ def update_project_params(start_date,
     cur_proj_dir = qc.get_project_directory()
     params_filepath = os.path.join(cur_proj_dir, params_filename)
     with open(params_filepath, 'w') as f:
-        f.write(params_file_contents)                # save file locally
-    qc.update_config_params(params_file_contents)    # update remotely
+        f.write(params_file_contents)                       # save file locally
+    qc.uapf__update_all_project_files(project_id=qc.pid)    # update all remote project files
 
 
 def compile_project():
@@ -109,7 +107,7 @@ def backtest_compiled_project(compile_id):
             log_url = 'https://www.quantconnect.com/backtests/{}/{}/{}-log.txt'.format(
                 qc.uid, qc.pid, backtest_id)
             filename = '{}_{}-log.txt'.format(backtest_name, backtest_id)
-            backtest_log_dir = os.path.join(qc.get_project_directory(), 'backtest_logs')
+            backtest_log_dir = os.path.join(qc.get_project_directory(), '../{}_backtest_logs'.format(qc.pid))
             if not os.path.exists(backtest_log_dir):
                 os.makedirs(backtest_log_dir)
             file_path = os.path.join(backtest_log_dir, filename)
@@ -121,17 +119,18 @@ def backtest_compiled_project(compile_id):
 
 
 def read_file_to_log(file_path):
+    print(' ===================== Contents of file: ===================== ')
     with open(file_path, 'r') as f:
         lines = f.read().splitlines()
         log_txt = '\n'
         for line in lines:
             log_txt += '{}\n'.format(line)
         print(log_txt)
+    print(' ============================ EOF ============================ ')
 
 
 if __name__ == '__main__':
-    setup_logging()
-    """ Parse arguments from CLI """
+    # Parse arguments from CLI
     parser = argparse.ArgumentParser(description='Backtest date param passing demo')
     parser.add_argument('-s', '--start_date', metavar=('<start-date>',),
                         default=None, help="First date to run algo on")
@@ -142,5 +141,6 @@ if __name__ == '__main__':
                           args.end_date)
     compilation_id = compile_project()
     backtest_log_filepath = backtest_compiled_project(compilation_id)
+
     read_file_to_log(backtest_log_filepath)
     print('Done.')
