@@ -31,7 +31,7 @@ Currently, its primary function is to provide version control to the algorithm d
     
         cp .env_example .env
           
-   *Note: This creates a copy of* `.env_example` *named* `.env`. *You need modify this file to contain your QuantConnect credentials. Necessary values are found within the* `Api` *section under* `My Account` *on the QuantConnect website. A Project ID (PID) can be obtained be using algolab.py once the account API credentails are configured.* 
+   *Note: This creates a copy of* `.env_example` *named* `.env`. *You need modify this file to contain your QuantConnect credentials. Necessary values are found within the* `Api` *section under* `My Account` *on the QuantConnect website. A Project ID (PID) can be obtained by using algolab.py once the account API credentails are configured.* 
 
 
 
