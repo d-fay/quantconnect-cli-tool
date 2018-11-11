@@ -11,13 +11,13 @@ from dotenv import load_dotenv
 from code.qc.algolab import models
 from code.qc.api.wrapper import QCApi
 
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-# dotenv_path = os.path.join(os.getcwd(), '.env')
-# load_dotenv(dotenv_path)
+dir_script = os.path.dirname(os.path.realpath(__file__))
+dotenv_path = os.path.join(os.getcwd(), '.env')
+load_dotenv(dotenv_path)
 
-# uid = os.environ['QC_USER_ID'],
-# token = os.environ['QC_ACCESS_TOKEN']
-# pid = os.environ['QC_BACKTEST_DATERANGE_PID']
+uid = os.environ['QC_USER_ID'],
+token = os.environ['QC_ACCESS_TOKEN']
+pid = os.environ['QC_BACKTEST_DATERANGE_PID']
 
 
 class QCHelper(QCApi):
@@ -25,15 +25,11 @@ class QCHelper(QCApi):
 
     def __init__(self):
         self.dir_qc_proj = os.path.dirname(os.path.realpath(models.__file__))
-        self.dir_script = os.path.dirname(os.path.realpath(__file__))
-        self.dotenv_path = os.path.join(os.getcwd(), '.env')
-        load_dotenv(self.dotenv_path)
-        self.pid = os.environ['QC_BACKTEST_DATERANGE_PID']
-        super(QCHelper, self).__init__(userId=os.environ['QC_USER_ID'], token=os.environ['QC_ACCESS_TOKEN'])
+        super(QCHelper, self).__init__(userId=uid, token=token)
 
     def get_project_directory(self):
 
-        project_response = self.read_project(self.pid)
+        project_response = self.read_project(pid)
         project_details = project_response['projects'][0]
         filename = os.path.join(self.dir_qc_proj, 'project_files/{}_{}'.format(
             project_details['projectId'],
@@ -41,18 +37,17 @@ class QCHelper(QCApi):
         return filename
 
     def update_config_params(self, config_file_txt):
-        self.update_project_file_content(projectId=self.pid,
+        self.update_project_file_content(projectId=pid,
                                          fileName='conf.py',
                                          newFileContents=config_file_txt)
 
 
 def setup_logging():
-    qc = QCHelper()
-    log_dir = os.path.join(qc.dir_script, 'log')
+    log_dir = os.path.join(dir_script, 'log')
     if not os.path.isdir(log_dir):
-        os.mkdir(os.path.join(qc.dir_script, 'log'))
-    log_filename = 'log/algolab.log'
-    log = logging.getLogger('algolab_logger')
+        os.mkdir(os.path.join(dir_script, 'log'))
+    log_filename = 'log/qc_backtest_daterange.log'
+    log = logging.getLogger('qc_backtest_daterange_logger')
     log.setLevel(logging.DEBUG)
 
     # Add handler to create new log file every 10MB
@@ -78,11 +73,11 @@ def update_project_params(start_date,
 def compile_project():
     qc = QCHelper()
     print('Compiling project...')
-    compile_results = qc.create_compile(qc.pid)
+    compile_results = qc.create_compile(pid)
     compile_id = compile_results['compileId']
     print('Checking compilation results')
     while True:
-        compile_read_status_results = qc.read_compile(qc.pid, compile_id)
+        compile_read_status_results = qc.read_compile(pid, compile_id)
 
         if compile_read_status_results['state'] == 'InQueue':
             time.sleep(15)  # seconds
@@ -103,20 +98,20 @@ def backtest_compiled_project(compile_id):
     qc = QCHelper()
     print('Triggering project backtest...')
     backtest_name = '{}_{}'.format(
-        qc.pid, str(dt.datetime.now())[:19].replace(' ', '_').replace(':', ''))
-    backtest_results = qc.create_backtest(qc.pid, compile_id, backtest_name)
+        pid, str(dt.datetime.now())[:19].replace(' ', '_').replace(':', ''))
+    backtest_results = qc.create_backtest(pid, compile_id, backtest_name)
     backtest_id = backtest_results['backtestId']
-    backtest_read_results = qc.read_backtest(qc.pid, backtest_id)
+    backtest_read_results = qc.read_backtest(pid, backtest_id)
     while backtest_read_results['progress'] < 1:
         print('Waiting for backtest to complete...')
         time.sleep(15)
-        backtest_read_results = qc.read_backtest(qc.pid, backtest_id)
+        backtest_read_results = qc.read_backtest(pid, backtest_id)
     if backtest_read_results['completed'] is True:
         print(backtest_read_results['result'])
         print('Successful backtest! Downloading log file...')
 
         log_url = 'https://www.quantconnect.com/backtests/{}/{}/{}-log.txt'.format(
-            os.environ['QC_USER_ID'], qc.pid, backtest_id)
+            uid, pid, backtest_id)
 
         filename = '{}_{}-log.txt'.format(backtest_name, backtest_id)
         backtest_log_dir = os.path.join(qc.get_project_directory(), 'backtest_logs')
