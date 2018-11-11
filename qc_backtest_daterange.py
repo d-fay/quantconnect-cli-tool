@@ -38,21 +38,6 @@ class QCHelper(AlgorithmLabToolkit):
                                          fileName=params_filename,
                                          newFileContents=config_file_txt)
 
-#
-# def setup_logging():
-#     import logging.handlers
-#     qc = QCHelper()
-#     log_dir = os.path.join(qc.dir_script, 'log')
-#     if not os.path.isdir(log_dir):
-#         os.mkdir(os.path.join(qc.dir_script, 'log'))
-#     log_filename = 'log/algolab.log'
-#     log = logging.getLogger('algolab_logger')
-#     log.setLevel(logging.DEBUG)
-#     # Add handler to create new log file every 10MB
-#     file_handler = logging.handlers.RotatingFileHandler(
-#         log_filename, maxBytes=10*1024*1024, backupCount=5)
-#     log.addHandler(file_handler)
-
 
 def update_project_params(start_date,
                           end_date):
@@ -60,7 +45,7 @@ def update_project_params(start_date,
     #                   'END_DATE = \'{}\'\n'.format(start_date, end_date)
     daterange = {'start_date': start_date, 'end_date': end_date}
     params_file_contents = 'daterange = {}\n'.format(daterange)
-    qc = QCHelper()
+
     cur_proj_dir = qc.get_project_directory()
     params_filepath = os.path.join(cur_proj_dir, params_filename)
     with open(params_filepath, 'w') as f:
@@ -69,7 +54,6 @@ def update_project_params(start_date,
 
 
 def compile_project():
-    qc = QCHelper()
     print('Compiling project...')
     compile_results = qc.create_compile(qc.pid)
     compile_id = compile_results['compileId']
@@ -93,7 +77,6 @@ def compile_project():
 
 
 def backtest_compiled_project(compile_id):
-    qc = QCHelper()
     print('Triggering project backtest...')
     backtest_name = '{}_{}'.format(
         qc.pid, str(dt.datetime.now())[:19].replace(' ', '_').replace(':', ''))
@@ -137,6 +120,7 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--end_date', metavar=('<end-date>',),
                         default=None, help="Last date to run algo on")
     args = parser.parse_args()
+    qc = QCHelper()
     update_project_params(args.start_date,
                           args.end_date)
     compilation_id = compile_project()
