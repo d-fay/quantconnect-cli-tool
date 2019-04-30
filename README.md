@@ -9,7 +9,7 @@ Currently, its primary function is to provide version control to the algorithm d
 
 
 - [[algolab](algolab.md)] - `algolab.py` - a command line interface for interacting with QC REST API
-
+- [backtest_daterange] - `qc_backtest_daterange.py` - a CLI tool for backtesting a pre-configured daterange
 
 
 
